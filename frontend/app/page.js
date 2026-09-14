@@ -4,12 +4,34 @@ import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { apiGet } from '@/lib/api';
 import StatCard from '@/components/cards/StatCard';
+import { IconAttendance, IconInbox, IconMeetings } from '@/components/icons';
 
 const USER_ID = 1;
 
 function formatDateTime(value) {
   if (!value) return '—';
   return new Date(value.replace(' ', 'T')).toLocaleString();
+}
+
+function SectionTitle({ icon, title, tone = 'slate' }) {
+  const tones = {
+    slate: 'bg-slate-100 text-slate-700',
+    blue: 'bg-blue-50 text-blue-700',
+    emerald: 'bg-emerald-50 text-emerald-700',
+    amber: 'bg-amber-50 text-amber-700',
+    violet: 'bg-violet-50 text-violet-700',
+  };
+
+  return (
+    <div className="flex items-center gap-2.5">
+      <span
+        className={`inline-flex h-8 w-8 items-center justify-center rounded-lg ${tones[tone] || tones.slate}`}
+      >
+        {icon}
+      </span>
+      <h3 className="text-sm font-semibold text-slate-900">{title}</h3>
+    </div>
+  );
 }
 
 export default function DashboardPage() {
@@ -42,11 +64,7 @@ export default function DashboardPage() {
     return (
       <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
         {error}
-        <button
-          type="button"
-          onClick={load}
-          className="ml-3 underline"
-        >
+        <button type="button" onClick={load} className="ml-3 underline">
           Retry
         </button>
       </div>
@@ -67,23 +85,33 @@ export default function DashboardPage() {
           label="Today attendance"
           value={att?.clock_in ? (att.status === 'late' ? 'Late' : 'Present') : 'Absent'}
           hint={attendanceHint}
+          tone="emerald"
+          icon={<IconAttendance />}
         />
         <StatCard
           label="Unread inbox"
           value={data.unread_inbox}
           hint="Messages waiting"
+          tone="blue"
+          icon={<IconInbox />}
         />
         <StatCard
           label="Upcoming meetings"
           value={data.upcoming_meetings}
           hint="Scheduled from now"
+          tone="violet"
+          icon={<IconMeetings />}
         />
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
         <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
-          <div className="mb-3 flex items-center justify-between">
-            <h3 className="text-sm font-semibold text-slate-900">Recent inbox</h3>
+          <div className="mb-3 flex items-center justify-between gap-3">
+            <SectionTitle
+              title="Recent inbox"
+              tone="blue"
+              icon={<IconInbox className="h-4 w-4" />}
+            />
             <Link href="/inbox" className="text-xs font-medium text-slate-600 hover:text-slate-900">
               View all
             </Link>
@@ -103,9 +131,16 @@ export default function DashboardPage() {
         </section>
 
         <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
-          <div className="mb-3 flex items-center justify-between">
-            <h3 className="text-sm font-semibold text-slate-900">Next meetings</h3>
-            <Link href="/meetings" className="text-xs font-medium text-slate-600 hover:text-slate-900">
+          <div className="mb-3 flex items-center justify-between gap-3">
+            <SectionTitle
+              title="Next meetings"
+              tone="violet"
+              icon={<IconMeetings className="h-4 w-4" />}
+            />
+            <Link
+              href="/meetings"
+              className="text-xs font-medium text-slate-600 hover:text-slate-900"
+            >
               View all
             </Link>
           </div>

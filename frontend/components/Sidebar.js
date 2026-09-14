@@ -8,6 +8,7 @@ const links = [
   { href: '/attendance', label: 'Attendance' },
   { href: '/inbox', label: 'Inbox' },
   { href: '/meetings', label: 'Meetings' },
+  { href: '/tasks', label: 'Tasks' },
 ];
 
 export default function Sidebar() {
