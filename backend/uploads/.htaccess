@@ -1,0 +1,8 @@
+# Allow image files in this tree
+<IfModule mod_authz_core.c>
+  <FilesMatch "\.(jpe?g|png|webp)$">
+    Require all granted
+  </FilesMatch>
+</IfModule>
+
+Options -Indexes

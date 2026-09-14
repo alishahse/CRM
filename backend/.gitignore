@@ -1,0 +1,7 @@
+# Backend secrets & junk
+.env
+.env.local
+.env.*.local
+vendor/
+uploads/attendance/
+*.log

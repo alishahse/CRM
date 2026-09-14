@@ -1,0 +1,8 @@
+# Deny direct HTTP access to bootstrap (include-only)
+<IfModule mod_authz_core.c>
+  <Files "bootstrap.php">
+    Require all denied
+  </Files>
+</IfModule>
+
+Options -Indexes
