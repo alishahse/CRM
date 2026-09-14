@@ -10,3 +10,5 @@ backend/uploads/attendance/
 *.log
 .DS_Store
 Thumbs.db
+
+uploads/
